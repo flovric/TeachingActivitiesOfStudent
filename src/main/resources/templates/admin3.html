@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<title>Semestri</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}" type="text/css" media="all" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+<!-- Header -->
+<div id="header">
+	<div class="shell">
+		<!-- Logo + Top Nav -->
+		<div id="top">
+			<h1><a href="/admin">Admin panel evidencija nastavnih aktivnosti</a></h1>
+			<div id="top-navigation">
+				Dobrodošao <strong>Administrator</strong>
+				<span>|</span>
+				<a href="/logout">Odjava</a>
+			</div>
+		</div>
+		<!-- End Logo + Top Nav -->
+		
+		<!-- Main Nav -->
+		<div id="navigation">
+			<ul>
+			    <li><a href="/admin/subjects"><span>Predmeti</span></a></li>
+			    <li><a href="/admin/years" class="active"><span>Semestri</span></a></li>
+			    <li><a href="/admin/professors"><span>Nastavnici</span></a></li>
+			    <li><a href="/admin/students"><span>Studenti</span></a></li>
+			</ul>
+		</div>
+		<!-- End Main Nav -->
+	</div>
+</div>
+<!-- End Header -->
+
+<!-- Container -->
+<div id="container">
+	<div class="shell">
+		
+		<!-- Small Nav -->
+		<div class="small-nav">
+			<a href="/admin">Početna</a>
+			<span>&gt;</span>
+			<a href="/admin/years">Semestri</a>
+			<span>&gt;</span>
+			Trenutni semestri
+		</div>
+		<!-- End Small Nav -->
+		
+		<!-- Main -->
+		<div id="main">
+			<div class="cl">&nbsp;</div>
+			
+			<!-- Content -->
+			<div id="content">
+				
+				<!-- Box -->
+				<div class="box">
+					<!-- Box Head -->
+					<div class="box-head">
+						<h2 class="left">Trenutni semestri</h2>
+					</div>
+					<!-- End Box Head -->	
+
+					<!-- Table -->
+					<div class="table">
+						<table width="100%" border="0" cellspacing="0" cellpadding="0">
+							<tr>
+								<th width="13"></th>
+								<th>Akademska godina</th>
+								<th>Semestar</th>
+								<th width="200" class="ac"></th>
+							</tr>
+							<tr th:each="year : ${years}">
+								<td></td>
+						        <td th:text="${year.academicYear}">  Godina ...</td>
+						        <td th:text="${year.semester}">  semestar ... </td>
+						        <td style="text-align: center;" width="200">
+						       
+						        <form th:action="@{/admin/years(id=${year.id}, delete=1, edit=0, add=0, assign=0)}" th:object="${year.id}" method="post">
+						        	<button type="Submit" style="float: left; padding: 0; border: none; background: none; padding-right: 15px" name="delete" value="delete"><i class="fa fa-remove" style="font-size:20px;color:red"></i>   </button>
+						        </form>
+						      
+						        <form th:action="@{/admin/years(id=${year.id}, delete=0, edit=1, add=0, assign=0)}" th:object="${year.id}" method="post">
+						        	<button type="Submit" style="float: left; padding: 0; border: none; background: none; padding-left: 16px padding-right:5px" name="edit" value="edit">   <i class="fa fa-edit" style="font-size:20px;color:blue"></i></button>
+						        </form>
+
+						        <a th:href="@{'/admin/year/' + ${year.id}}">
+						        	<button name="addSubjects" value="addSubjects" style="float: left; padding: 0; border: none; background: none; padding-left: 30px" ><i class="fa fa-plus" style="float: none; font-size:15px;color:green"></i> Dodijeli predmete</button>
+						        </a>
+						        </td>
+					 
+					    	</tr>
+						</table>
+						
+					</div>
+					<!-- Table -->
+					
+				</div>
+				<!-- End Box -->
+				
+				<!-- Box -->
+				<div class="box" id="AddAcademicYear">
+					<!-- Box Head -->
+					<div class="box-head">
+						<h2>Dodaj novu akademsku godinu i semestar:</h2>
+					</div>
+					<!-- End Box Head -->
+					
+					<form th:action="@{/admin/years(id=0, delete=0, edit=0, add=1, assign=0)}" method="post" th:object=${newAcademicYear}>
+						
+						<!-- Form -->
+						<div class="form">
+								<p>
+									<span class="req">4 znamenke</span>
+									<label>Akademska godina <span>(Obavezno polje)</span></label>
+									<input type="text" th:field="${newAcademicYear.academicYear}" class="field size1" />
+								</p>	
+							
+								<p class="inline-field">
+									<label>Semestar</label>
+									<select th:field="${newAcademicYear.semester}" class="field size1">
+										  <option value="ZIMSKI">ZIMSKI</option>
+										  <option value="LJETNI">LJETNI</option>
+									</select>
+								</p>
+							
+						</div>
+						<!-- End Form -->
+						
+						<!-- Form Buttons -->
+						<div class="buttons">
+							<button type="submit" class="button" value="submit"> Dodaj </button>
+						</div>
+						<!-- End Form Buttons -->
+					</form>
+				</div>
+				<!-- End Box -->
+
+			</div>
+			<!-- End Content -->
+			
+			<!-- Sidebar -->
+			<div id="sidebar">
+				
+				<!-- Box -->
+				<div class="box">
+					
+					<!-- Box Head -->
+					<div class="box-head">
+						<h2>Upravljanje semestrima</h2>
+					</div>
+					<!-- End Box Head-->
+					
+					<div class="box-content">
+						<a href="#AddAcademicYear" class="add-button"><span>Dodaj novi semestar</span></a>
+						<div class="cl">&nbsp;</div>
+						
+					</div>
+				</div>
+				<!-- End Box -->
+			</div>
+			<!-- End Sidebar -->
+			
+			<div class="cl">&nbsp;</div>			
+		</div>
+		<!-- Main -->
+	</div>
+</div>
+<!-- End Container -->
+
+<!-- Footer -->
+<div id="footer">
+	<div class="shell">
+		<span class="left">&copy; 2017 - Fakultet Elektrotehnike i Računarstva</span>
+		<span class="right">
+			Author: Filip Lovrić
+		</span>
+	</div>
+</div>
+<!-- End Footer -->
+	
+</body>
+</html>

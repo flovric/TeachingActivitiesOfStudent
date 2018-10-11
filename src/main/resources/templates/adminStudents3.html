@@ -1,0 +1,235 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<title>Admin upravljačka ploča studenti</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}" type="text/css" media="all" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+<!-- Header -->
+<div id="header">
+	<div class="shell">
+		<!-- Logo + Top Nav -->
+		<div id="top">
+			<h1><a href="/admin">Upravljačka ploča - Evidencija nastavnih aktivnosti studenata</a></h1>
+			<div id="top-navigation">
+				Dobrodošao <strong>Administrator</strong>
+				<span>|</span>
+				<a href="/logout">Odjava</a>
+			</div>
+		</div>
+		<!-- End Logo + Top Nav -->
+		
+		<!-- Main Nav -->
+		<div id="navigation">
+			<ul>
+			    <li><a href="/admin/subjects"><span>Predmeti</span></a></li>
+			    <li><a href="/admin/years"><span>Semestri</span></a></li>
+			    <li><a href="/admin/professors"><span>Nastavnici</span></a></li>
+			    <li><a href="/admin/students" class="active"><span>Studenti</span></a></li>
+			</ul>
+		</div>
+		<!-- End Main Nav -->
+	</div>
+</div>
+<!-- End Header -->
+
+<!-- Container -->
+<div id="container">
+	<div class="shellMine">
+		
+		<!-- Small Nav -->
+		<div class="small-nav">
+			<a href="/admin">Početna</a>
+			<span>&gt;</span>
+			Studenti
+			
+		</div>
+		<!-- End Small Nav -->
+	
+	<!-- Main -->
+		<div id="main">
+			<div class="cl">&nbsp;</div>
+			
+			<!-- Content -->
+			<div id="contentMine">
+				
+				<!-- Box -->
+				<div class="box">
+					<!-- Box Head -->
+					<div class="box-head">
+						<h2 class="left">Izaberite ak. godinu i semestar, a potom predmet: </h2>
+					</div>
+					<!-- End Box Head -->	
+
+					<!-- Table -->
+					<div class="table">
+						<p class="inline-field">
+							<label>Semestar: </label>
+							<select id="slct1" name="slct1" class="field" onchange="if(this.options[this.selectedIndex].value != ''){window.top.location.href='/admin/students/'+this.options[this.selectedIndex].value}" >
+							
+									<option th:value="year.id" th:text="${year.academicYear + ' ' + year.semester}" selected></option>
+								  	<option th:each="year : ${years}" th:value="${year.id}" th:text="${year.academicYear + '  ' + year.semester}"></option>
+							</select>
+							
+						</p>
+						<br/>
+						<p class="inline-field">
+							<label>Predmet: </label>
+							<select id="slct2" name="slct2" class="field" onchange="if(this.options[this.selectedIndex].value != ''){window.top.location.href='/admin/students/'+this.options[this.selectedIndex].id+ '/' +this.options[this.selectedIndex].value+ '/' +this.options[this.selectedIndex].text}">
+
+									<option th:value="${subject.subjectId}" th:label="${subject.name + ', ' + subject.course}" th:text="${subject.courseId}" th:id="${year.id}" selected></option>
+								  	<option th:each="sub : ${subjects}" th:value="${sub.subjectId}" th:label="${sub.name + ', ' + sub.course}" th:text="${sub.courseId}" th:id="${year.id}"></option>
+							</select>
+
+						</p>
+
+
+						
+					</div>
+					<!-- Table -->
+					
+				</div>
+				<!-- End Box -->
+
+				<!-- Box -->
+				<div class="box">
+					
+					<!-- Box Head -->
+					<div class="box-head">
+						<h2>Dostupni studenti:</h2>
+					</div>
+					<!-- End Box Head-->
+					
+					<!-- Table -->
+					<div class="table">
+						<table width="100%" border="0" cellspacing="0" cellpadding="0">
+							<tr>
+								<th width="13"></th>
+								<th>Ime</th>
+								<th>Prezime</th>
+								<th>JMBAG</th>
+								<th width="110" class="ac"></th>
+							</tr>
+							<tr th:each="stud : ${availableStudents}">
+								<td></td>
+						        <td th:text="${stud.name}">  Ime studenta ...</td>
+						        <td th:text="${stud.lastName}">  Prezime ... </td>
+						        <td th:text="${stud.jmbag}">  Jmbag ... </td>
+						        <td style="text-align: center;">
+						        	<form th:action="@{'/admin/students/' + ${academicYear.id}+ '/' +${subject.subjectId}+ '/' 
+						        		+${subject.courseId}(studentId=${stud.id}, assign=1 , delete=0)}" method="post" >
+							        	<button type="Submit" class="ico del" name="dodaj" value="dodaj"><i class="fa fa-plus" style="float: none; font-size:15px;color: blue"></i> Dodaj </button>
+							        </form>
+						        </td>
+					 
+					    	</tr>
+						</table>
+						
+					</div>
+					<!-- Table -->
+				</div>
+				<!-- End Box -->
+
+				<!-- Box -->
+				<div class="box">
+					
+					<!-- Box Head -->
+					<div class="box-head">
+						<h2>Odaberite .txt datoteku s popisom studenata:</h2>
+					</div>
+					<!-- End Box Head-->
+					<br/>
+					
+					<form th:action="@{'/admin/students/' + ${academicYear.id}+ '/' +${subject.subjectId}+ '/' 
+						        		+${subject.courseId}+ '/upload'}" enctype="multipart/form-data" method="post">
+						<p>
+						<br>
+						<input type="file" name="myFile" style="padding-left: 10px; float:left">
+						</p>
+						<div style="padding-left: 40px; float: left; padding-bottom: 20px">
+						<button type="Submit" ><i class="fa fa-mail-forward" style="font-size:20px;color:green"></i>  Pošalji</button>
+						</div>
+					</form>
+					<br/>
+					<br/>
+					
+				</div>
+				<!-- End Box -->
+
+			</div>
+			<!-- End Content -->
+			<br/>
+			<br/>
+			<br/>
+			<br/>
+			<br/>
+			<br/>
+			<br/>
+			<br/>
+			<br/>
+			<!-- Sidebar -->
+			<div id="sidebarMine">
+				
+				<!-- Box -->
+				<div class="box">
+					
+					<!-- Box Head -->
+					<div class="box-head">
+						<h2>Dodijeljeni studenti:</h2>
+					</div>
+					<!-- End Box Head-->
+					
+					<!-- Table -->
+					<div class="table">
+						<table width="100%" border="0" cellspacing="0" cellpadding="0">
+							<tr>
+								<th width="13"></th>
+								<th>Ime</th>
+								<th>Prezime</th>
+								<th>JMBAG</th>
+								<th width="110" class="ac"></th>
+							</tr>
+							<tr th:each="stud : ${assignedStudents}">
+								<td></td>
+						        <td th:text="${stud.name}">  Ime studenta ...</td>
+						        <td th:text="${stud.lastName}">  Prezime ... </td>
+						        <td th:text="${stud.jmbag}">  Jmbag ... </td>
+						        <td style="text-align: center;">
+						        	<form th:action="@{'/admin/students/' + ${academicYear.id}+ '/' +${subject.subjectId}+ '/' 
+						        		+${subject.courseId}(studentId=${stud.id}, assign=0 , delete=1)}" method="post" >
+							        	<button type="Submit" class="ico del" name="obrisi" value="obrisi"><i class="fa fa-remove" style="font-size:15px;color:red"></i> Obriši </button>
+							        </form>
+						        </td>
+					 
+					    	</tr>
+						</table>
+						
+					</div>
+					<!-- Table -->
+				</div>
+				<!-- End Box -->
+			</div>
+			<!-- End Sidebar -->
+			
+			<div class="cl">&nbsp;</div>			
+		</div>
+		<!-- Main -->
+	</div>
+</div>
+<!-- End Container -->
+
+<!-- Footer -->
+<div id="footer">
+	<div class="shell">
+		<span class="left">&copy; 2017 - Fakultet Elektrotehnike i Računarstva</span>
+		<span class="right">
+			Author: Filip Lovrić
+		</span>
+	</div>
+</div>
+<!-- End Footer -->
+	
+</body>
+</html>

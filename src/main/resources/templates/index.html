@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Evidencija nastavnih aktivnosti</title>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/login.css}" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+	
+	
+	<div class="container">
+		<br/>
+		<img th:src="@{/images/fer-logo.png}" class="img-responsive center-block" width="300" height="300" alt="Logo" />
+		<br/>
+		<h1 class="homeCenter"> Dobrodošli na web-portal za Evidenciju nastavnih aktivnosti studenata!</h1>
+		<br/>
+		<h3 align="center">Registrirajte se ili prijavite s postojećim korisničkim računom:</h3>
+		<br/>
+		<br/>
+		<div class="col-md-6 col-md-offset-3">
+			<form th:action="@{/login}" method="get" class="form-signin">
+				<button class="btn btn-lg btn-primary btn-block" name="Submit" value="Login" type="Submit">Prijavi se</button>
+			</form>
+			<br/>
+			<form th:action="@{/registration}" method="get">
+				<button class="btn btn-lg btn-primary btn-block" name="Submit" value="registration" type="Submit">Registriraj se</button>
+			</form>	
+		</div>
+	</div>
+</body>
+</html>

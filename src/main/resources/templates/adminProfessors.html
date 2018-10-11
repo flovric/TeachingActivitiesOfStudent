@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<title>Admin upravljačka ploča nastavnici</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}" type="text/css" media="all" />
+</head>
+<body>
+<!-- Header -->
+<div id="header">
+	<div class="shell">
+		<!-- Logo + Top Nav -->
+		<div id="top">
+			<h1><a href="/admin">Upravljačka ploča - Evidencija nastavnih aktivnosti studenata</a></h1>
+			<div id="top-navigation">
+				Dobrodošao <strong>Administrator</strong>
+				<span>|</span>
+				<a href="/logout">Odjava</a>
+			</div>
+		</div>
+		<!-- End Logo + Top Nav -->
+		
+		<!-- Main Nav -->
+		<div id="navigation">
+			<ul>
+			    <li><a href="/admin/subjects"><span>Predmeti</span></a></li>
+			    <li><a href="/admin/years"><span>Semestri</span></a></li>
+			    <li><a href="/admin/professors" class="active"><span>Nastavnici</span></a></li>
+			    <li><a href="/admin/students"><span>Studenti</span></a></li>
+			</ul>
+		</div>
+		<!-- End Main Nav -->
+	</div>
+</div>
+<!-- End Header -->
+
+<!-- Container -->
+<div id="container">
+	<div class="shellMine">
+		
+		<!-- Small Nav -->
+		<div class="small-nav">
+			<a href="/admin">Početna</a>
+			<span>&gt;</span>
+			Nastavnici
+			
+		</div>
+		<!-- End Small Nav -->
+	
+	<!-- Main -->
+		<div id="main">
+			<div class="cl">&nbsp;</div>
+			
+			<!-- Content -->
+			<div id="contentMine">
+				
+				<!-- Box -->
+				<div class="box">
+					<!-- Box Head -->
+					<div class="box-head">
+						<h2 class="left">Izaberite ak. godinu i semestar, a potom predmet: </h2>
+					</div>
+					<!-- End Box Head -->	
+
+					<!-- Table -->
+					<div class="table">
+						<p class="inline-field">
+							<label>Semestar: </label>
+							<select id="slct1" name="slct1" class="field" onchange="if(this.options[this.selectedIndex].value != ''){window.top.location.href='/admin/professors/'+this.options[this.selectedIndex].value}" >
+
+									<option selected></option>
+								  	<option th:each="year : ${years}" th:value="${year.id}" th:text="${year.academicYear + '  ' + year.semester}"></option>
+							</select>
+							
+						</p>
+						<br/>
+						<p class="inline-field">
+							<label>Predmet: </label>
+							<select id="slct2" name="slct2" th:object="${subject1}" class="field">
+								  <option></option>
+							</select>
+
+						</p>
+
+
+						
+					</div>
+					<!-- Table -->
+					
+				</div>
+				<!-- End Box -->
+
+			</div>
+			<!-- End Content -->
+			
+	
+			<!-- Sidebar -->
+			<div id="sidebarMine">
+				
+				<!-- Box -->
+				<div>
+				
+						<form action="/admin/professors/mentor" method="get">
+						  	<button type="submit" class="buttonMentor">Dodijeli mentorstva studentima</button>
+						</form>
+					
+					
+				</div>
+				<!-- End Box -->
+			</div>
+			<!-- End Sidebar -->
+			
+			<div class="cl">&nbsp;</div>			
+		</div>
+		<!-- Main -->
+	</div>
+</div>
+<!-- End Container -->
+
+<!-- Footer -->
+<div id="footer">
+	<div class="shell">
+		<span class="left">&copy; 2017 - Fakultet Elektrotehnike i Računarstva</span>
+		<span class="right">
+			Author: Filip Lovrić
+		</span>
+	</div>
+</div>
+<!-- End Footer -->
+	
+</body>
+</html>

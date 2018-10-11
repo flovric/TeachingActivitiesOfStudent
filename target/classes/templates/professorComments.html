@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<title>Nastavnik</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}" type="text/css" media="all" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+<!-- Header -->
+<div id="header">
+	<div class="shell">
+		<!-- Logo + Top Nav -->
+		<div id="top">
+			<h1><a href="/professor">Nastavnik - Evidencija nastavnih aktivnosti studenata</a></h1>
+			<div id="top-navigation">
+				Dobrodošao <strong>Nastavnik</strong>
+				<span>|</span>
+				<a href="/logout">Odjava</a>
+			</div>
+		</div>
+		<!-- End Logo + Top Nav -->
+	</div>
+</div>
+<!-- End Header -->
+
+<!-- Container -->
+<div id="container">
+	<div class="shellMine">
+		
+		<!-- Small Nav -->
+		<div class="small-nav">
+			<a href="/professor">Nastavnik</a>
+			<span>&gt;</span>
+			<a th:href="@{'/professor/' + ${year.id} + '/subjects'}">Semestar</a>
+			<span>&gt;</span>
+			<br/><br/>
+			<h2 th:text="${subject.name}"
+
+		</div>
+		<!-- End Small Nav -->
+		
+		<!-- Main -->
+		<div id="main">
+			<div class="cl">&nbsp;</div>
+			
+			<!-- Content -->
+			<div id="contentMine">
+				
+				<!-- Box -->
+				<div class="box">
+					<!-- Box Head -->
+					<div class="box-head">
+						<h2 class="left" th:text="@{'Student: '+${student.name}+' '+${student.lastName}}"></h2>
+						
+					</div>
+					<!-- End Box Head -->	
+
+					<!-- Table -->
+					<div class="table">
+						<table width="100%" border="0" cellspacing="0" cellpadding="0">
+							<tr>
+								<th width="13"></th>
+								<th>Tekst</th>
+								<th>Trajanje</th>
+								<th>Vrijeme nastanka</th>
+								<th width="110" class="ac"></th>
+							</tr>
+							<tr th:each="activity : ${activities}">
+								<td></td>
+						        <td th:text="${activity.text}" class="commentText">  Tekst aktivnosti ...</td>
+						        <td th:text="${activity.duration}">  trajanje ... </td>
+						        <td th:text="${activity.creationTime}">  vrijeme nastanka ... </td>
+						        <td>
+						        	<a th:href="@{'/professor/' + ${year.id} + '/subjects/' + ${subject.courseId} + '/' + ${subject.subjectId}+ '/students/' +${student.id}+ '/activity/' +${activity.id} }"> Prikaži komentare </a>
+						        </td>
+					 
+					    	</tr>
+					    	<tr>
+					    		<td> </td>
+					    		<td></td>
+					    		<td></td>
+					    		<td></td>
+					    		<td></td>
+
+					    	</tr>
+
+					    	<tr id="suma">
+					    		<td></td>
+					    		<td><span>SUMA</span></td>
+					    		<td th:text = "${suma}"> suma...</td>
+					    		<td></td>
+					    		<td></td>
+
+					    	</tr>
+						</table>
+						
+					</div>
+					<!-- Table -->
+					
+				</div>
+				<!-- End Box -->
+
+				<!-- Box -->
+				<div class="box">
+					<!-- Box Head -->
+					<div class="box-head">
+						<h2>Izvezi aktivnosti u xlsx formatu:</h2>
+					</div>
+					<!-- End Box Head -->
+					<br/>
+					<br/>
+					<a th:href="@{'/professor/' + ${year.id} + '/subjects/' + ${subject.courseId} + '/' + ${subject.subjectId} + '/students/' + ${student.id}+'/export'}" method="get"> <button><i class="fa fa-mail-forward" style="font-size:20px;color:green"></i>  Izvezi aktivnosti u excel </button></a>
+					<br/>
+					<br/>
+						
+					
+					
+				</div>
+				<!-- End Box -->
+
+
+			</div>
+			<!-- End Content -->
+
+			<!-- Sidebar -->
+			<div id="sidebarMine">
+				
+				<!-- Box -->
+				<div class="box">
+					
+					<!-- Box Head -->
+					<div class="box-head">
+						<h2>Komentari</h2>
+					</div>
+					<!-- End Box Head-->
+					
+					<!-- Table -->
+					<div class="table">
+						<table width="100%" border="0" cellspacing="0" cellpadding="0">
+							<tr>
+								<th width="13"></th>
+								<th>Tekst</th>
+								<th>Autor</th>
+								<th>Vrijeme nastanka</th>
+								<th width="110" class="ac"></th>
+							</tr>
+							<tr th:each="comment : ${comments}">
+								<td></td>
+						        <td th:text="${comment.text}" class="commentText">  Tekst komentara ...</td>
+						        <td th:text="${comment.author}"> Autor komentara</td>
+						        <td th:text="${comment.creationTime}">  Vrijeme nastanka komentara ... </td>
+						        
+						        <td>
+						        	<form th:action="@{'/professor/' + ${year.id} + '/subjects/' + ${subject.courseId} + '/' + ${subject.subjectId}+'/students/'
+					    		     +${student.id}+ '/activity/'+${activity.id}(commentId=${comment.id}, delete=1, add=0)}" method="post" >
+							        	<button type="Submit" class="ico del" name="delete" value="delete"><i class="fa fa-remove" style="font-size:15px;color:red"></i> Obriši </button>
+							        </form>
+						        </td>
+					 
+					    	</tr>
+					    	<tr>
+					    		<td></td>
+					    		<td></td>
+					    		<td></td>
+					    		<td></td>
+					    		<td></td>
+
+					    	</tr>
+					    	<tr>
+					    		<form th:action="@{'/professor/' + ${year.id} + '/subjects/' + ${subject.courseId} + '/' + ${subject.subjectId}+ '/students/'
+					    		     +${student.id}+ '/activity/'+${activity.id}(commentId=0, delete=0, add=1)}" method="post" >
+					    			<td></td>
+					    			<td colspan="3">
+					    				<input type="text" th:field="${newComment.text}" size="40" />
+					    			</td>
+					    			<td colspan=2>
+							        	<button type="Submit" class="ico del" name="dodaj" value="dodaj"><i class="fa fa-plus" style="float: none; font-size:15px;color: blue"></i> Dodaj novi komentar </button>
+							        </td>
+							    </form>
+					    	</tr>
+						</table>
+						
+					</div>
+					<!-- Table -->
+				</div>
+				<!-- End Box -->
+			</div>
+			<!-- End Sidebar -->
+	
+			
+			<div class="cl">&nbsp;</div>			
+		</div>
+		<!-- Main -->
+	</div>
+</div>
+<!-- End Container -->
+
+<!-- Footer -->
+<div id="footer">
+	<div class="shell">
+		<span class="left">&copy; 2017 - Fakultet Elektrotehnike i Računarstva</span>
+		<span class="right">
+			Author: Filip Lovrić
+		</span>
+	</div>
+</div>
+<!-- End Footer -->
+	
+</body>
+</html>

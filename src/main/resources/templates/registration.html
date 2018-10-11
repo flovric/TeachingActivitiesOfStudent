@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Registration Evidencija nastavnih aktivnosti</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/registration.css}" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <form th:action="@{/login}" method="get">
+        <button class="btn btn-md btn-warning btn-block" type="Submit">Idi na prijavu</button>
+    </form> 
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <form autocomplete="off" action="#" th:action="@{/registration}"
+                    th:object="${user}" method="post" class="form-horizontal"
+                    role="form">
+                    <br/>
+                    <br/>
+                    <h2>Unesite tražene podatke:</h2>
+                    <div class="form-group">
+                        <div class="col-sm-9">
+                        <label th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
+                                class="validation-message"></label>
+                        Ime:<input type="text" th:field="*{name}" 
+                                class="form-control" /> 
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-9">
+                        <label  th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"
+                                class="validation-message"></label>
+                            Prezime:<input type="text" th:field="*{lastName}"
+                                 class="form-control" /> 
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-9">
+                            Email:<input type="text" th:field="*{email}" 
+                                class="form-control" /> <label
+                                th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
+                                class="validation-message"></label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-9">
+                            Lozinka:<input type="password" th:field="*{password}"
+                                 class="form-control" /> <label
+                                th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
+                                class="validation-message"></label>
+                        </div>
+                    </div>
+                    
+                    <div >
+                        <div >
+                            
+                                <label><input type="radio" id ="roleStudent" th:object = "${role}" name="role" th:value="STUDENT" required/> Student </label><br/>
+                                <label><input type="radio" id ="roleProfessor" th:object ="${role}" name="role" th:value="PROFESSOR" required/> Nastavnik </label>
+
+                                <script type="text/javascript">
+                                    document.getElementById('roleStudent').onchange = function() {
+                                        document.getElementById('jmbag').disabled = !this.checked;
+                                    };
+
+                                    document.getElementById('roleProfessor').onchange = function() {
+                                        document.getElementById('jmbag').disabled = this.checked;
+                                    };
+                                </script>
+
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-9">
+                        <label  th:if="${#fields.hasErrors('jmbag')}" th:errors="*{jmbag}"
+                                class="validation-message"></label>
+                            Jmbag:<input type="text" id="jmbag" th:field="*{jmbag}"
+                                 class="form-control" disabled /> 
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-9">
+                            <button type="submit" class="btn btn-primary btn-block">Registriraj se</button>
+                        </div>
+                    </div>
+                    
+                    <span th:utext="${successMessage}"></span>
+                    
+                    
+                </form>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

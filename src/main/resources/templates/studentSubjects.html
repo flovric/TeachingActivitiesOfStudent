@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<title>Student</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}" type="text/css" media="all" />
+</head>
+<body>
+<!-- Header -->
+<div id="header">
+	<div class="shell">
+		<!-- Logo + Top Nav -->
+		<div id="top">
+			<h1><a href="/student">Student - Evidencija nastavnih aktivnosti studenata</a></h1>
+			<div id="top-navigation">
+				Dobrodošao <strong>Student</strong>
+				<span>|</span>
+				<a href="/logout">Odjava</a>
+			</div>
+		</div>
+		<!-- End Logo + Top Nav -->
+	</div>
+</div>
+<!-- End Header -->
+
+<!-- Container -->
+<div id="container">
+	<div class="shell">
+		
+		<!-- Small Nav -->
+		<div class="small-nav">
+			<a href="/student">Student</a>
+			<span>&gt;</span>
+			Semestar:
+			<br/><br/>
+			<h2 th:text="${year.academicYear} + '  ' + ${year.semester}"
+		</div>
+		<!-- End Small Nav -->
+		
+		<!-- Main -->
+		<div id="main">
+			<div class="cl">&nbsp;</div>
+			
+			<!-- Content -->
+			<div id="content">
+				
+				<!-- Box -->
+				<div class="box">
+					<!-- Box Head -->
+					<div class="box-head">
+						<h2 class="left">Predmeti za odabranu ak. godinu i semestar</h2>
+						
+					</div>
+					<!-- End Box Head -->	
+
+					<!-- Table -->
+					<div class="table">
+						<table width="100%" border="0" cellspacing="0" cellpadding="0">
+							<tr>
+								<th width="13"></th>
+								<th>Naziv predmeta</th>
+								<th>ECTS</th>
+								<th>Modul</th>
+								<th width="110" class="ac"></th>
+							</tr>
+							<tr th:each="subject : ${subjects}" >
+								<td></td>
+						        <td th:text="${subject.name}">  Ime predmeta ...</td>
+						        <td th:text="${subject.ects}">  broj ECTS-a ... </td>
+						        <td th:text="${subject.course}" > smjer ...</td>
+						        <td>
+						       		<a th:href="@{'/student/' + ${year.id} + '/subjects/' + ${subject.courseId} + '/' + ${subject.subjectId} }"> Prikaži aktivnosti </a>
+						        </td>
+					 
+					    	</tr>
+						</table>
+						
+					</div>
+					<!-- Table -->
+					
+				</div>
+				<!-- End Box -->
+				
+				
+
+			</div>
+			<!-- End Content -->
+			
+			<div class="cl">&nbsp;</div>			
+		</div>
+		<!-- Main -->
+	</div>
+</div>
+<!-- End Container -->
+
+<!-- Footer -->
+<div id="footer">
+	<div class="shell">
+		<span class="left">&copy; 2017 - Fakultet Elektrotehnike i Računarstva</span>
+		<span class="right">
+			Author: Filip Lovrić
+		</span>
+	</div>
+</div>
+<!-- End Footer -->
+	
+</body>
+</html>
